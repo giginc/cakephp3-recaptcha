@@ -1,0 +1,43 @@
+{
+    "name": "giginc/cakephp3-recaptcha",
+    "description": "Recaptcha for CakePHP 3",
+    "type": "cakephp-plugin",
+    "keywords": [
+        "cakephp",
+        "cakephp-plugin",
+        "google",
+        "recaptcha"
+    ],  
+    "homepage": "https://github.com/giginc/cakephp3-recaptcha",
+    "require": {
+        "php": ">=5.6",
+        "cakephp/cakephp": "~3.0"
+    },  
+    "require-dev": {
+        "phpunit/phpunit": "^6.0",
+        "squizlabs/php_codesniffer": "^3.5",
+        "cakephp/cakephp-codesniffer": "^4.0"
+    },  
+    "license": "MIT",
+    "authors": [
+        {   
+            "name": "kgws",
+            "email": "kagawa@giginc.co.jp"
+        }   
+    ],  
+    "autoload": {
+        "psr-4": {
+            "Recaptcha\\": "src/",
+            "Recaptcha\\Test\\": "tests/"
+        }   
+    },  
+    "scripts": {
+        "check": [
+            "@test",
+            "@cs-check"
+        ],  
+        "cs-check": "phpcs -p --standard=vendor/cakephp/cakephp-codesniffer/CakePHP src/ tests/",
+        "cs-fix": "phpcbf --standard=vendor/cakephp/cakephp-codesniffer/CakePHP src/ tests/",
+        "test": "phpunit --stderr"
+    }   
+}

@@ -1,0 +1,82 @@
+<?php
+namespace Recaptcha\Controller\Component;
+
+use Cake\Controller\Component;
+use Cake\Core\Configure;
+use Cake\Http\Client;
+
+/**
+ * Recaptcha component
+ */
+class RecaptchaComponent extends Component
+{
+    /**
+     * Default config
+     *
+     * These are merged with user-provided config when the component is used.
+     *
+     * @var array
+     */
+    protected $_defaultConfig = [
+        // This is test only key/secret
+        'sitekey' => 'sitekey',
+        'secret' => 'secret',
+        'enable' => true,
+        'httpClientOptions' => [],
+    ];
+
+    /**
+     * initialize
+     * @param array $config config
+     * @return void
+     */
+    public function initialize(array $config = [])
+    {
+        if (empty($config)) {
+            $config = Configure::read('Recaptcha', []);
+        }
+
+        $this->setConfig($config);
+        $this->_registry->getController()->viewBuilder()->setHelpers(['Recaptcha.Recaptcha' => $this->_config]);
+    }
+
+    /**
+     * verify recaptcha
+     * @return bool
+     */
+    public function verify()
+    {
+        if (!$this->_config['enable']) {
+            return true;
+        }
+
+        $controller = $this->_registry->getController();
+        if ($controller->request->getData('g-recaptcha-response')) {
+            $response = json_decode($this->apiCall());
+
+            if (isset($response->success)) {
+                return $response->success;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Call reCAPTCHA API to verify
+     *
+     * @return string
+     * @codeCoverageIgnore
+     */
+    protected function apiCall()
+    {
+        $controller = $this->_registry->getController();
+        $client = new Client($this->_config['httpClientOptions']);
+
+        return $client->post('https://www.google.com/recaptcha/api/siteverify', [
+            'secret' => $this->_config['secret'],
+            'response' => $controller->request->getData('g-recaptcha-response'),
+            'remoteip' => $controller->request->clientIp(),
+        ])->getBody();
+    }
+}
