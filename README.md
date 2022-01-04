@@ -7,7 +7,7 @@ You can install this plugin into your CakePHP application using [composer](http:
 The recommended way to install composer packages is:
 
 ```
-composer require giginc/cakephp3-recaptcha3
+composer require giginc/cakephp3-recaptcha
 ```
 
 followed by the command:
@@ -27,8 +27,22 @@ bin/cake plugin load Recaptcha
 
 Override default configure from loadComponent:
 ```
+Recaptcha version2
 $this->loadComponent('Recaptcha.Recaptcha', [
     'enable' => true,     // true/false
+    'version' => 2,
+    'sitekey' => 'your_site_key', //if you don't have, get one: https://www.google.com/recaptcha/intro/index.html
+    'secret' => 'your_secret',
+    'type' => 'image',  // image/audio
+    'theme' => 'light', // light/dark
+    'lang' => 'vi',      // default en
+    'size' => 'normal'  // normal/compact
+]);
+
+Recaptcha version3
+$this->loadComponent('Recaptcha.Recaptcha', [
+    'enable' => true,     // true/false
+    'version' => 3,
     'sitekey' => 'your_site_key', //if you don't have, get one: https://www.google.com/recaptcha/intro/index.html
     'secret' => 'your_secret',
 ]);
@@ -37,12 +51,30 @@ $this->loadComponent('Recaptcha.Recaptcha', [
 Override default configure from app config file:
 ```
 file: config/app.php
+Recaptcha version2
     /**
      * Recaptcha configuration.
      *
      */
     'Recaptcha' => [
         'enable' => true,
+        'version' => 2,
+        'sitekey' => 'your_site_key',
+        'secret' => 'your_secret',
+        'type' => 'image',
+        'theme' => 'light',
+        'lang' => 'es',
+        'size' => 'normal'
+    ]
+
+Recaptcha version3
+    /**
+     * Recaptcha configuration.
+     *
+     */
+    'Recaptcha' => [
+        'enable' => true,
+        'version' => 3,
         'sitekey' => 'your_site_key',
         'secret' => 'your_secret',
     ]
@@ -59,6 +91,7 @@ return [
      */
     'Recaptcha' => [
         'enable' => true,
+        'version' => 3,
         'sitekey' => 'your_site_key',
         'secret' => 'your_secret',
     ]

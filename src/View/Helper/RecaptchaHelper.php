@@ -33,6 +33,10 @@ class RecaptchaHelper extends Helper
             return '';
         }
 
-        return $this->_View->element('Recaptcha.recaptcha', compact('recaptcha'));
+        if ($recaptcha['version'] == 3) {
+            return $this->_View->element('Recaptcha.recaptcha3', compact('recaptcha'));
+        } else {
+            return $this->_View->element('Recaptcha.recaptcha2', compact('recaptcha'));
+        }
     }
 }

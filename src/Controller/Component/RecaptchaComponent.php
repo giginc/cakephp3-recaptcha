@@ -19,9 +19,14 @@ class RecaptchaComponent extends Component
      */
     protected $_defaultConfig = [
         // This is test only key/secret
+        'version' => 2,
         'sitekey' => 'sitekey',
         'secret' => 'secret',
+        'theme' => 'light',
+        'type' => 'image',
         'enable' => true,
+        'lang' => 'en',
+        'size' => 'normal',
         'httpClientOptions' => [],
     ];
 

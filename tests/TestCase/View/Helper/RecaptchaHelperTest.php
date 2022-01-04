@@ -19,6 +19,7 @@ class RecaptchaHelperTest extends TestCase
         $this->Recaptcha = new RecaptchaHelper(
             $this->View,
             [
+                'version' => 2,
                 'enable' => true,
                 'sitekey' => 'sitekey',
                 'theme' => 'theme',
