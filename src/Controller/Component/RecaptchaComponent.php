@@ -61,12 +61,7 @@ class RecaptchaComponent extends Component
 
         $controller = $this->_registry->getController();
         if ($controller->request->getData('g-recaptcha-response')) {
-            $response = $this->apiCall();
-
-            // false or null is return false
-            if ($response) {
-                $response = json_decode($response);
-            }
+            $response = json_decode($this->apiCall());
 
             if (isset($response->success)) {
                 return $response->success;
@@ -82,15 +77,16 @@ class RecaptchaComponent extends Component
      * @return string
      * @codeCoverageIgnore
      */
-    protected function apiCall()
+    protected function apiCall(): string
     {
         $controller = $this->_registry->getController();
         $client = new Client($this->_config['httpClientOptions']);
-
-        return $client->post('https://www.google.com/recaptcha/api/siteverify', [
+        $data = [
             'secret' => $this->_config['secret'],
-            'response' => $controller->request->getData('g-recaptcha-response'),
-            'remoteip' => $controller->request->clientIp(),
-        ])->getBody();
+            'response' => $controller->getRequest()->getData('g-recaptcha-response'),
+            'remoteip' => $controller->getRequest()->clientIp(),
+        ];
+
+        return (string)$client->post('https://www.google.com/recaptcha/api/siteverify', $data)->getBody();
     }
 }
