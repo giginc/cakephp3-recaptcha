@@ -7,7 +7,6 @@ grecaptcha.ready(function () {
     });
 });
 </script>
-<?php $this->Form->unlockField('g-recaptcha-response');?>
 <?= $this->Form->control('g-recaptcha-response', ['type' => 'hidden', 'id' => 'g-recaptcha-response']) ?>
 <noscript>
   <div>
