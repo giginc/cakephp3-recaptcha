@@ -29,6 +29,7 @@ class RecaptchaComponent extends Component
         'enable' => true,
         'lang' => 'en',
         'size' => 'normal',
+        'scoreThreshold' => 0.5,
         'httpClientOptions' => [],
     ];
 
@@ -63,8 +64,12 @@ class RecaptchaComponent extends Component
         if ($controller->request->getData('g-recaptcha-response')) {
             $response = json_decode($this->apiCall());
 
-            if (isset($response->success)) {
-                return $response->success;
+            if (isset($response->success) && $response->success) {
+                return true;
+            } elseif (isset($response->score) && $response->score >= floatval($this->_config['scoreThreshold'])) {
+                return true;
+            } else {
+                return false;
             }
         }
 

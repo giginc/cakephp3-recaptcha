@@ -45,6 +45,7 @@ $this->loadComponent('Recaptcha.Recaptcha', [
     'version' => 3,
     'sitekey' => 'your_site_key', //if you don't have, get one: https://www.google.com/recaptcha/intro/index.html
     'secret' => 'your_secret',
+    'scoreThreshold' => 0.5, // score threshold (default 0.5)
 ]);
 ```
 
